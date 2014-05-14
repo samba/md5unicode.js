@@ -15,7 +15,7 @@
  * 
  * 
  * References
- *	- http://www.lemoda.net/c/ucs2-to-utf8/
+ *  - http://www.lemoda.net/c/ucs2-to-utf8/
  *  - http://www.myersdaily.org/joseph/javascript/md5-text.html
  *  - http://tidy.sourceforge.net/cgi-bin/lxr/source/src/utf8.c#L380
  *  - http://en.wikipedia.org/wiki/MD5
@@ -246,24 +246,19 @@ window = (exports || window);
 					last = last || (!last && (chunk.length < 64));
 					blocks = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
-					// console.info('Processing chunk', chunk.length, hex(chunk));
-
 					// Prepare 64x little-endian 32-bit integers from 4x 8-bit chunks, for a total of 512 bits
 					for(i = 0; i < 64; i += 4){
 						blocks[i>>2] = chunk[i] | (chunk[i +1] <<8) | (chunk[i+2] <<16) | (chunk[i+3] <<24);
-						//console.info('Chunk...', i, i>>2, blocks[i>>2], chunk.slice(i, i +4));
 					}
 
 
 					if(last){
 						i = chunk.length;
 						blocks[i>>2] |= (0x80 << ((i%4) <<3)); // XXX
-						// console.info('Chunk LEN', i, blocks[i>>2]);
 
 						if(i <56){
 							// Sufficient room is availble to append the length in the existing buffer
 							// Provide a 64-bit length representation (little-endian) of input size
-							// console.info('REACHED INLINE LAST HANDLER')
 							total = total *8; 
 							blocks[14] = total & 0xFFFFFFFF;
 							blocks[15] = Math.floor(total / (0xFFFFFFFF));
@@ -286,8 +281,7 @@ window = (exports || window);
 			if(last){
 				// The loop wasn't able to fit the length bit into
 				// the last message, so we run it here.
-				// console.info('REACHED FINAL LAST HANDLER')
-
+			
 				blocks = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 				// Provide a 64-bit representation (little-endian) of input size
@@ -340,6 +334,4 @@ window = (exports || window);
 
 
 }(window));
-
-
 
