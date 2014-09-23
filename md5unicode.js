@@ -10,8 +10,6 @@
  * unknown. Contributions by way of testing, bug filing/fixing, and optimization
  * would be most welcome.
  * 
- * Copyright: Sam Briesemeister (2014)
- * License: BSD 3-clause (open source)
  * 
  * 
  * References
@@ -27,7 +25,8 @@ window = (exports || window);
 
 (function(){
 
-
+	// Credit: Joseph Myers
+	// http://www.myersdaily.org/joseph/javascript/md5-text.html
 	function add32(a, b) {
 		return (a + b) & 0xFFFFFFFF;
 	}
@@ -36,6 +35,8 @@ window = (exports || window);
 	var i;
 	var MD5 = { 
 
+		// Credit: Joseph Myers:
+		// http://www.myersdaily.org/joseph/javascript/md5-text.html
 		// XXX reduce the use of "add32" in these
 		ff: function(a, b, c, d, k, s, t){
 			var q = ((b & c) | ((~b) & d));
@@ -61,6 +62,9 @@ window = (exports || window);
 			return add32((z << s) | (z >>> (32 - s)), b);
 			//return b + ((a + q + k + t) <<s);
 		},
+		// (END) the methods above 
+
+
 
 		mix: function(blocks, vector){
 
@@ -76,6 +80,9 @@ window = (exports || window);
 				} 
 
 			 * This process is also "unrolled" (presumably for efficiency)
+			 * 
+			 * Derived from Joseph Myers' work:
+			 * http://www.myersdaily.org/joseph/javascript/md5.js
 			 */
 
 
@@ -238,7 +245,7 @@ window = (exports || window);
 				MD5.load(buffer, input, position, readsize, true);
 				position = position + readsize;
 
-				rinse: { // this label lets us skip buffering if enough is already present
+				rinse: { // this label lets us skip buffering (unnecessarily) if enough is already present
 
 					// Consume the first 64 bytes (8-bits each) - total 512 bits
 					chunk = buffer.splice(0,64);
@@ -254,7 +261,7 @@ window = (exports || window);
 
 					if(last){
 						i = chunk.length;
-						blocks[i>>2] |= (0x80 << ((i%4) <<3)); // XXX
+						blocks[i>>2] |= (0x80 << ((i%4) <<3)); // XXX Derived from Joseph Myers' work
 
 						if(i <56){
 							// Sufficient room is availble to append the length in the existing buffer
