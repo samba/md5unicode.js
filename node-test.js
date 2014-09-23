@@ -40,6 +40,11 @@ function run(){
 		console.warn('#FAIL: Multibyte hash does not match expected value', expected, result, multibyte)
 	}
 
+	if(md5 && md5.test){
+		md5.test()
+	}
+
+
 	// This one is expected NOT to match, since reference implementations are NOT UTF_16 compliant
 	//testMD5Algorithms(multibyte);
 
