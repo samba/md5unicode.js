@@ -154,7 +154,7 @@ window = (exports || window);
 
 		},
 
-		/* Yield a properly-sequenced segment of 8-bit blocks from input.
+		/** Prepare a properly-sequenced segment of 8-bit blocks from input.
 		 * This method honors UTF-8 and UTF-16 encodings for multi-byte characters,
 		 * and converts Unicode characters to the appropriate 8-bit representation,
 		 * producing variable-length arrays of 8-bit blocks. 
@@ -163,10 +163,10 @@ window = (exports || window);
 		 * @param {number} howmany
 		 * @return {?Array.<number>}
 		 */
-		sequence: function(input, start, howmany, support_unicode){
+		load: function(buffer, input, start, howmany, support_unicode){
 
 			var values = input.substr(start, howmany), i = values.length;
-			var chars = [], char_val, result = [], q = 0;
+			var chars = buffer, char_val, q = 0;
 			var temp, lower;
 
 
@@ -216,7 +216,7 @@ window = (exports || window);
 		
 			}
 
-			return chars; // in original input order
+			return buffer; // in original input order
 		},
 
 		hash: function(input){
@@ -235,7 +235,7 @@ window = (exports || window);
 			do {
 
 				// Prime/load the buffer
-				buffer.push.apply(buffer, MD5.sequence(input, position, readsize, true));
+				MD5.load(buffer, input, position, readsize, true);
 				position = position + readsize;
 
 				rinse: { // this label lets us skip buffering if enough is already present
