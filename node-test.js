@@ -29,6 +29,7 @@ function run(){
 	testMD5Algorithms('hello', "hello");
 	testMD5Algorithms('little grey fox', "The little grey fox jumped over the red fence.")
 	testMD5Algorithms('hipster', hipster_ipsum())
+	testMD5Algorithms('64byte', "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
 
 	var multibyte = String.fromCharCode(49, 50, 51, 305, 573, 283, 51, 50, 49);
 	var expected = 'd3e2d7a2b6f39dd0ed8bf1c9a76d1435';
